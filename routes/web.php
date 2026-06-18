@@ -77,7 +77,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/employee/notifications/dismiss/{type}', function ($type) {
         session(['dismissed_notifications.' . $type => true]);
         return response()->json(['success' => true]);
-
-    
     });
 });
