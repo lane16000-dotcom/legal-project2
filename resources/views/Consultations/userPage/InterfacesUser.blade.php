@@ -18,11 +18,13 @@
                 <p class="text-gray-600 dark:text-gray-400 font-bold mb-2">القضايا الخاصة بي</p>
                 <span class="text-5xl font-black text-wadimakkah-dark dark:text-wadimakkah-light font-mono">{{ $stats['total_cases'] ?? 0 }}</span>
             </div>
+
             {{-- كارت العقود الخاصة بي --}}
             <div class="bg-blue-50 dark:bg-gray-800 border-2 border-blue-200 dark:border-gray-700 p-6 rounded-2xl shadow-sm text-center">
                 <p class="text-gray-600 dark:text-gray-400 font-bold mb-2">العقود الخاصة بي</p>
                 <span class="text-5xl font-black text-wadimakkah-dark dark:text-wadimakkah-light font-mono">{{ $stats['total_contracts'] ?? 0 }}</span>
             </div>
+
             {{-- كارت الاستشارات الخاصة بي --}}
             <div class="bg-blue-50 dark:bg-gray-800 border-2 border-blue-200 dark:border-gray-700 p-6 rounded-2xl shadow-sm text-center">
                 <p class="text-gray-600 dark:text-gray-400 font-bold mb-2">الاستشارات الخاصة بي</p>
@@ -68,59 +70,59 @@
             </div>
         </div>
 
-         <!-- لوحة التحكم -->
-    <div class="bg-wadimakkah-dark text-white p-4 text-center rounded-t-lg font-bold text-lg">
-        لوحة التحكم
-    </div>
-
-    <div class="bg-white p-8 rounded-b-lg shadow-sm border">
-
-        <div class="flex flex-col items-center">
-
-            <!-- SELECT -->
-            <select id="dashboardSelect"
-                class="bg-white px-6 py-3 rounded-xl shadow-md text-sm outline-none cursor-pointer mb-6 border">
+        {{-- 📊 قسم لوحة المؤشرات البيانية (PowerBI Dashboard) المضافة حديثاً تحت الخدمات 📊 --}}
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 mb-12">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-wadimakkah-dark dark:text-wadimakkah-light"></i> لوحة الإحصائيات والمؤشرات
+                    </h2>
+                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">اختر نوع لوحة البيانات لاستعراض الإحصائيات مباشرة من نظام PowerBI</p>
+                </div>
                 
-                <option value="cases" selected>قضايا</option>
-                <option value="contracts">عقود</option>
-                <option value="consultations">استشارات</option>
-
-            </select>
-
-            <!-- IFRAME -->
-            <div class="bg-white p-4 rounded-2xl shadow-md w-full max-w-5xl">
-                <iframe id="powerBIFrame"
-                    class="w-full h-[520px] rounded-lg"
-                    frameborder="0"
-                    allowFullScreen="true">
-                </iframe>
+                {{-- قائمة اختيار نوع الداشبورد المنسدلة --}}
+                <div class="relative min-w-[200px]">
+                    <select id="dashboardSelect" class="w-full bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm font-semibold py-2.5 px-4 pr-10 rounded-xl border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-wadimakkah-light focus:border-transparent appearance-none transition cursor-pointer shadow-sm">
+                        <option value="cases">  القضايا</option>
+                        <option value="contracts">  العقود</option>
+                        <option value="consultations">  الاستشارات</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-gray-400">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
             </div>
 
+            {{-- إطار عرض لوحة PowerBI --}}
+            <div class="relative w-full rounded-xl overflow-hidden shadow-inner border border-gray-100 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900" style="height: 600px;">
+                <iframe id="powerBIFrame" src="" frameborder="0" allowFullScreen="true" class="w-full h-full absolute inset-0"></iframe>
+            </div>
         </div>
-    </div>
     </main>
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const select = document.getElementById('dashboardSelect');
-    const frame = document.getElementById('powerBIFrame');
-
-    const dashboards = {
-        cases: "https://app.powerbi.com/view?r=eyJrIjoiZjI3NmZjM2YtNjUwYS00MDQ3LWI0MGUtNTk4ZWFlZjEwMzc3IiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
-        
-        contracts: "https://app.powerbi.com/view?r=eyJrIjoiMjZlZTY1Y2ItZGE1MS00NzNiLTk1YWItNTY1NzNkZTlmOWFlIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
-
-        consultations: "https://app.powerbi.com/view?r=eyJrIjoiZjA4ODY2M2QtM2Y4Mi00OTlhLTk1OTYtOTE0YzBmNWRhN2IxIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9"
-    };
-
-    //  تحميل القضايا تلقائياً
-    frame.src = dashboards["cases"];
-
-    // تغيير الداشبورد
-    select.addEventListener('change', function () {
-        frame.src = dashboards[this.value];
-    });
-
-});
-</script>
 @endsection
+
+{{-- حقن السكريبت في الـ Stack الخاص بالملف الرئيسي ليعمل بشكل نظامي وآمن --}}
+@push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const select = document.getElementById('dashboardSelect');
+            const frame = document.getElementById('powerBIFrame');
+
+            if (select && frame) {
+                const dashboards = {
+                    cases: "https://app.powerbi.com/view?r=eyJrIjoiZjI3NmZjM2YtNjUwYS00MDQ3LWI0MGUtNTk4ZWFlZjEwMzc3IiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
+                    contracts: "https://app.powerbi.com/view?r=eyJrIjoiMjZlZTY1Y2ItZGE1MS00NzNiLTk1YWItNTY1NzNkZTlmOWFlIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
+                    consultations: "https://app.powerbi.com/view?r=eyJrIjoiZjA4ODY2M2QtM2Y4Mi00OTlhLTk1OTYtOTE0YzBmNWRhN2IxIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9"
+                };
+
+                // تحميل القضايا تلقائياً كخيار افتراضي أول عند الدخول
+                frame.src = dashboards["cases"];
+
+                // الاستماع لتغيير القائمة المنسدلة وتحديث رابط الـ iframe
+                select.addEventListener('change', function () {
+                    frame.src = dashboards[this.value];
+                });
+            }
+        });
+    </script>
+@endpush
