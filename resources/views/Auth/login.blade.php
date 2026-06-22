@@ -105,7 +105,7 @@
 
                 <p class="text-center text-[11px] text-gray-500 mt-2">
                     ليس لديك حساب؟
-                    <a href="{{ url('/register') }}" class="text-blue-600 hover:underline font-semibold">
+                    <a href="{{ url('/') }}" class="text-blue-600 hover:underline font-semibold">
                         أنشئ حساباً جديداً
                     </a>
                 </p>

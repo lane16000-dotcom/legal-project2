@@ -10,8 +10,8 @@ use App\Http\Controllers\AIController;
 // ====================================================
 // 1. روابط تسجيل الدخول والإنشاء (المتاحة للجميع بدون حماية)
 // ====================================================
-Route::get('/register', [RegisterController::class, 'showRegisterForm']);
-Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/', [RegisterController::class, 'showRegisterForm']);
+Route::post('/', [RegisterController::class, 'register']);
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
@@ -80,7 +80,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/employee/notifications/dismiss/{type}', function ($type) {
         session(['dismissed_notifications.' . $type => true]);
         return response()->json(['success' => true]);
-
-    
     });
 });
