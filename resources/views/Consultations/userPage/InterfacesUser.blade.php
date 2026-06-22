@@ -67,5 +67,60 @@
 
             </div>
         </div>
+
+         <!-- لوحة التحكم -->
+    <div class="bg-wadimakkah-dark text-white p-4 text-center rounded-t-lg font-bold text-lg">
+        لوحة التحكم
+    </div>
+
+    <div class="bg-white p-8 rounded-b-lg shadow-sm border">
+
+        <div class="flex flex-col items-center">
+
+            <!-- SELECT -->
+            <select id="dashboardSelect"
+                class="bg-white px-6 py-3 rounded-xl shadow-md text-sm outline-none cursor-pointer mb-6 border">
+                
+                <option value="cases" selected>قضايا</option>
+                <option value="contracts">عقود</option>
+                <option value="consultations">استشارات</option>
+
+            </select>
+
+            <!-- IFRAME -->
+            <div class="bg-white p-4 rounded-2xl shadow-md w-full max-w-5xl">
+                <iframe id="powerBIFrame"
+                    class="w-full h-[520px] rounded-lg"
+                    frameborder="0"
+                    allowFullScreen="true">
+                </iframe>
+            </div>
+
+        </div>
+    </div>
     </main>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const select = document.getElementById('dashboardSelect');
+    const frame = document.getElementById('powerBIFrame');
+
+    const dashboards = {
+        cases: "https://app.powerbi.com/view?r=eyJrIjoiZjI3NmZjM2YtNjUwYS00MDQ3LWI0MGUtNTk4ZWFlZjEwMzc3IiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
+        
+        contracts: "https://app.powerbi.com/view?r=eyJrIjoiMjZlZTY1Y2ItZGE1MS00NzNiLTk1YWItNTY1NzNkZTlmOWFlIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9",
+
+        consultations: "https://app.powerbi.com/view?r=eyJrIjoiZjA4ODY2M2QtM2Y4Mi00OTlhLTk1OTYtOTE0YzBmNWRhN2IxIiwidCI6Ijc5YTA1N2ZiLWIwZDUtNDRkZC04ZjkwLTBiZjcxNTFmNWMzZiIsImMiOjl9"
+    };
+
+    //  تحميل القضايا تلقائياً
+    frame.src = dashboards["cases"];
+
+    // تغيير الداشبورد
+    select.addEventListener('change', function () {
+        frame.src = dashboards[this.value];
+    });
+
+});
+</script>
 @endsection
