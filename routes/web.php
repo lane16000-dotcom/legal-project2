@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ConsultationsController; 
+use App\Http\Controllers\AIController;
 
 // ====================================================
 // 1. روابط تسجيل الدخول والإنشاء (المتاحة للجميع بدون حماية)
@@ -15,8 +16,9 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/ai-chat', [AIController::class, 'index']);
 
-
+Route::post('/ai-chat/send', [AIController::class, 'send']);
 // ====================================================
 // 2. الروابط المحمية بالـ Auth وبوابات الصلاحيات الأمنية
 // ====================================================
@@ -35,7 +37,8 @@ Route::middleware(['auth'])->group(function () {
         // مسار جدول مراجعة واعتماد الاستشارات والـ Modals داخل نفس الصفحة للمدير
         Route::get('/manager/consultations', [ConsultationsController::class, 'managerIncomingConsultations'])->name('manager.consultations.incoming');
         Route::post('/manager/consultations/{id}/approve', [ConsultationsController::class, 'approveConsultation'])->name('manager.consultations.approve');
-    });
+
+        });
 
     // 📊 [مجموعة الموظف القانوني] - حصرية لـ role_id = 2 فقط
     Route::middleware(['role:2'])->group(function () {

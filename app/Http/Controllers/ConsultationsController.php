@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; 
 use Illuminate\Support\Facades\Storage; 
 use Illuminate\Support\Facades\Schema; 
+use App\Services\AIService;
 
 class ConsultationsController extends Controller
 {
